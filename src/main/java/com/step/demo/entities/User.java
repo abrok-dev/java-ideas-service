@@ -1,25 +1,26 @@
 package com.step.demo.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(name="username", unique = true)
     private String username;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Column(name="password")
     private String password;
     @Column(name="email", unique = true)
@@ -29,8 +30,13 @@ public class User implements UserDetails {
     private boolean verifiedEmail;
     @Column(name = "created_at")
     private Date createdAt;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
     @Transient
     private String passwordConfirm;
     @Transient
@@ -41,9 +47,6 @@ public class User implements UserDetails {
     private String name;
     @Column(name = "second_name")
     private String secondName;
-
-    public User() {
-    }
 
     public Long getId() {
         return id;
@@ -67,6 +70,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 
     public String getPasswordConfirm() {
@@ -113,13 +124,12 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (authorities == null) {
             Set<GrantedAuthority> permissions = new HashSet<>();
-            var roles = getRoles();
-            for (Role role: roles) {
+            for (Role role: getRoles()) {
                 permissions.addAll(role.getPermissionsSet());
             }
             return permissions;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
