@@ -88,4 +88,9 @@ public class Role {
     public void setPermissions(String permissions) {
         this.permissions = permissions;
     }
+
+    @Override
+    public String toString() {
+        return "Role: " + name;
+    }
 }

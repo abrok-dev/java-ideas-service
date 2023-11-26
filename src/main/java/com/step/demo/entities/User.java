@@ -1,6 +1,7 @@
 package com.step.demo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,6 +29,7 @@ public class User implements UserDetails {
 
     @Column(name="verified_email")
     private boolean verifiedEmail;
+    @CreatedDate
     @Column(name = "created_at")
     private Date createdAt;
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
@@ -168,5 +170,10 @@ public class User implements UserDetails {
 
     public void setVerifiedEmail(boolean verifiedEmail) {
         this.verifiedEmail = verifiedEmail;
+    }
+
+    @Override
+    public String toString() {
+        return "User:" + username;
     }
 }
