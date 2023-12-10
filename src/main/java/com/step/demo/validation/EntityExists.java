@@ -1,4 +1,4 @@
 package com.step.demo.validation;
 
-public class findUserRequest {
+public interface EntityExists {
 }
