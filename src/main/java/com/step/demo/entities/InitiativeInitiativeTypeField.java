@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "initiatives_initiative_type_fields")
-public class InitiativeInitiativeTypeField {
+public class InitiativeInitiativeTypeField implements BaseEntity {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -26,16 +26,42 @@ public class InitiativeInitiativeTypeField {
     @Column(name = "value")
     private String value;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InitiativeInitiativeTypeField that = (InitiativeInitiativeTypeField) o;
-        return Objects.equals(initiative, that.initiative) && Objects.equals(initiativeTypeField, that.initiativeTypeField) && Objects.equals(value, that.value);
+    public Initiative getInitiative() {
+        return initiative;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(initiative, initiativeTypeField, value);
+    public void setInitiative(Initiative initiative) {
+        this.initiative = initiative;
     }
+
+    public InitiativeTypeField getInitiativeTypeField() {
+        return initiativeTypeField;
+    }
+
+    public void setInitiativeTypeField(InitiativeTypeField initiativeTypeField) {
+        this.initiativeTypeField = initiativeTypeField;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        InitiativeInitiativeTypeField that = (InitiativeInitiativeTypeField) o;
+//        return Objects.equals(initiative, that.initiative) && Objects.equals(initiativeTypeField, that.initiativeTypeField) && Objects.equals(value, that.value);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(initiative, initiativeTypeField, value);
+//    }
 }

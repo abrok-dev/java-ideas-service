@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements BaseEntity {
 
     @Column(name = "permissions", length = 3000)
     private String permissions;
@@ -63,6 +63,26 @@ public class Role {
                     .collect(Collectors.toSet());
         }
         return permissionsSet;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissionsSet(Set<GrantedAuthority> permissionsSet) {
+        this.permissionsSet = permissionsSet;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

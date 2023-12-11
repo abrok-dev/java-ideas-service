@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
 
-public class Permission implements GrantedAuthority {
+public class Permission implements GrantedAuthority  {
     private final String name;
 
      public Permission(String permission) {

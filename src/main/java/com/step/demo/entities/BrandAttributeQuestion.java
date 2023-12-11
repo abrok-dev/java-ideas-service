@@ -19,8 +19,7 @@ import java.util.Objects;
 @Filter(name = "deletedBrandAttributeQuestionFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allBrandAttributeQuestionFilter", defaultCondition = "1=1")
 @Filter(name = "allBrandAttributeQuestionFilter", condition = "1=1")
-public class BrandAttributeQuestion {
-
+public class BrandAttributeQuestion implements BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -38,7 +37,7 @@ public class BrandAttributeQuestion {
     )
     private BrandAttribute brandAttribute;
 
-    @OneToMany
+    @OneToMany(targetEntity = BrandAttributeAnswer.class, fetch = FetchType.LAZY)
     private List<BrandAttributeAnswer> brandAttributeAnswers;
 
     @CreatedDate
@@ -50,19 +49,83 @@ public class BrandAttributeQuestion {
     @Column(name = "deleted")
     private boolean deleted = Boolean.FALSE;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandAttributeQuestion that = (BrandAttributeQuestion) o;
-        return sortingList == that.sortingList && deleted == that.deleted && Objects.equals(id, that.id)
-                && Objects.equals(name, that.name) && Objects.equals(brandAttribute, that.brandAttribute)
-                && Objects.equals(brandAttributeAnswers, that.brandAttributeAnswers) && Objects.equals(createDate, that.createDate)
-                && Objects.equals(updateDate, that.updateDate);
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, sortingList, name, brandAttribute, brandAttributeAnswers, createDate, updateDate, deleted);
+    public int getSortingList() {
+        return sortingList;
     }
+
+    public void setSortingList(int sortingList) {
+        this.sortingList = sortingList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BrandAttribute getBrandAttribute() {
+        return brandAttribute;
+    }
+
+    public void setBrandAttribute(BrandAttribute brandAttribute) {
+        this.brandAttribute = brandAttribute;
+    }
+
+    public List<BrandAttributeAnswer> getBrandAttributeAnswers() {
+        return brandAttributeAnswers;
+    }
+
+    public void setBrandAttributeAnswers(List<BrandAttributeAnswer> brandAttributeAnswers) {
+        this.brandAttributeAnswers = brandAttributeAnswers;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        BrandAttributeQuestion that = (BrandAttributeQuestion) o;
+//        return sortingList == that.sortingList && deleted == that.deleted && Objects.equals(id, that.id)
+//                && Objects.equals(name, that.name) && Objects.equals(brandAttribute, that.brandAttribute)
+//                && Objects.equals(brandAttributeAnswers, that.brandAttributeAnswers) && Objects.equals(createDate, that.createDate)
+//                && Objects.equals(updateDate, that.updateDate);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, sortingList, name, brandAttribute, brandAttributeAnswers, createDate, updateDate, deleted);
+//    }
 }

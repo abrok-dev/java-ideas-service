@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 
+import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Table(name = "initiative_types")
 @SQLDelete(sql = "UPDATE initiative_types SET deleted = true WHERE id=?")
@@ -12,7 +15,7 @@ import org.hibernate.annotations.*;
 @Filter(name = "deletedInitiativeTypesFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allInitiativeTypesFilter", defaultCondition = "1=1")
 @Filter(name = "allInitiativeTypesFilter", condition = "1=1")
-public class InitiativeType {
+public class InitiativeType implements BaseEntity {
     @Id
     @GeneratedValue
     private long id;
@@ -23,7 +26,94 @@ public class InitiativeType {
     private String name;
 
     @Column(name = "deleted")
-    private boolean deleted;
+    private boolean deleted = Boolean.FALSE;
 
+    @OneToMany(targetEntity = InitiativeTypeField.class, fetch = FetchType.LAZY)
+    private List<InitiativeTypeField> initiativeTypeFieldList;
 
+    @OneToMany(targetEntity = TargetAudience.class, fetch = FetchType.LAZY)
+    private List<TargetAudience> targetAudienceList;
+
+    @OneToMany(targetEntity = BrandAttribute.class, fetch = FetchType.LAZY)
+    private List<BrandAttribute> brandAttributeList;
+
+    @OneToMany(targetEntity = Initiative.class, fetch = FetchType.LAZY)
+    private List<Initiative> initiativeList;
+
+    public long getId() {
+        return id;
+    }
+
+    public int getSortingList() {
+        return sortingList;
+    }
+
+    public void setSortingList(int sortingList) {
+        this.sortingList = sortingList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public List<InitiativeTypeField> getInitiativeTypeFieldList() {
+        return initiativeTypeFieldList;
+    }
+
+    public void setInitiativeTypeFieldList(List<InitiativeTypeField> initiativeTypeFieldList) {
+        this.initiativeTypeFieldList = initiativeTypeFieldList;
+    }
+
+    public List<TargetAudience> getTargetAudienceList() {
+        return targetAudienceList;
+    }
+
+    public void setTargetAudienceList(List<TargetAudience> targetAudienceList) {
+        this.targetAudienceList = targetAudienceList;
+    }
+
+    public List<BrandAttribute> getBrandAttributeList() {
+        return brandAttributeList;
+    }
+
+    public void setBrandAttributeList(List<BrandAttribute> brandAttributeList) {
+        this.brandAttributeList = brandAttributeList;
+    }
+
+    public List<Initiative> getInitiativeList() {
+        return initiativeList;
+    }
+
+    public void setInitiativeList(List<Initiative> initiativeList) {
+        this.initiativeList = initiativeList;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        InitiativeType that = (InitiativeType) o;
+//        return id == that.id && sortingList == that.sortingList && deleted == that.deleted && Objects.equals(name, that.name) && Objects.equals(initiativeTypeFieldList, that.initiativeTypeFieldList) && Objects.equals(targetAudienceList, that.targetAudienceList) && Objects.equals(brandAttributeList, that.brandAttributeList) && Objects.equals(initiativeList, that.initiativeList);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, sortingList, name, deleted, initiativeTypeFieldList, targetAudienceList, brandAttributeList, initiativeList);
+//    }
 }

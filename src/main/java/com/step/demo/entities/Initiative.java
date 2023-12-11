@@ -19,7 +19,7 @@ import java.util.Objects;
 @Filter(name = "deletedInitiativeFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allInitiativeFilter", defaultCondition = "1=1")
 @Filter(name = "allInitiativeFilter", condition = "1=1")
-public class Initiative {
+public class Initiative implements BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -43,7 +43,7 @@ public class Initiative {
     )
     private InitiativeStatus initiativeStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "author_id",
             foreignKey = @ForeignKey(name = "author_id_fk")
@@ -79,8 +79,136 @@ public class Initiative {
     @Column(name = "deleted")
     private boolean isDeleted = false;
 
-    @OneToMany
+    @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, fetch = FetchType.LAZY)
     private List<InitiativeInitiativeTypeField> initiativeTypeFieldValue;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public InitiativeType getInitiativeType() {
+        return initiativeType;
+    }
+
+    public void setInitiativeType(InitiativeType initiativeType) {
+        this.initiativeType = initiativeType;
+    }
+
+    public InitiativeStatus getInitiativeStatus() {
+        return initiativeStatus;
+    }
+
+    public void setInitiativeStatus(InitiativeStatus initiativeStatus) {
+        this.initiativeStatus = initiativeStatus;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public List<BrandAttributeEstimate> getBrandAttributeEstimates() {
+        return brandAttributeEstimates;
+    }
+
+    public void setBrandAttributeEstimates(List<BrandAttributeEstimate> brandAttributeEstimates) {
+        this.brandAttributeEstimates = brandAttributeEstimates;
+    }
+
+    public User getBrandManager() {
+        return brandManager;
+    }
+
+    public void setBrandManager(User brandManager) {
+        this.brandManager = brandManager;
+    }
+
+    public int getAuthorRating() {
+        return authorRating;
+    }
+
+    public void setAuthorRating(int authorRating) {
+        this.authorRating = authorRating;
+    }
+
+    public int getBrandManagerRating() {
+        return brandManagerRating;
+    }
+
+    public void setBrandManagerRating(int brandManagerRating) {
+        this.brandManagerRating = brandManagerRating;
+    }
+
+    public boolean isTakenToWork() {
+        return isTakenToWork;
+    }
+
+    public void setTakenToWork(boolean takenToWork) {
+        isTakenToWork = takenToWork;
+    }
+
+    public Date getExpiredDate() {
+        return expiredDate;
+    }
+
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public List<InitiativeInitiativeTypeField> getInitiativeTypeFieldValue() {
+        return initiativeTypeFieldValue;
+    }
+
+    public void setInitiativeTypeFieldValue(List<InitiativeInitiativeTypeField> initiativeTypeFieldValue) {
+        this.initiativeTypeFieldValue = initiativeTypeFieldValue;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -88,17 +216,14 @@ public class Initiative {
         if (o == null || getClass() != o.getClass()) return false;
         Initiative that = (Initiative) o;
         return authorRating == that.authorRating && brandManagerRating == that.brandManagerRating && isTakenToWork == that.isTakenToWork
-                && isDeleted == that.isDeleted && Objects.equals(id, that.id) && Objects.equals(name, that.name)
+                && isDeleted == that.isDeleted && Objects.equals(name, that.name)
                 && Objects.equals(description, that.description) && Objects.equals(initiativeType, that.initiativeType)
-                && Objects.equals(initiativeStatus, that.initiativeStatus) && Objects.equals(author, that.author)
-                && Objects.equals(brandAttributeEstimates, that.brandAttributeEstimates)
-                && Objects.equals(brandManager, that.brandManager) && Objects.equals(expiredDate, that.expiredDate)
-                && Objects.equals(createDate, that.createDate) && Objects.equals(updateDate, that.updateDate)
-                && Objects.equals(initiativeTypeFieldValue, that.initiativeTypeFieldValue);
+                && Objects.equals(initiativeStatus, that.initiativeStatus) && Objects.equals(author, that.author) &&
+                Objects.equals(expiredDate, that.expiredDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, initiativeType, initiativeStatus, author, brandAttributeEstimates, brandManager, authorRating, brandManagerRating, isTakenToWork, expiredDate, createDate, updateDate, isDeleted, initiativeTypeFieldValue);
+        return Objects.hash(name, description, initiativeType, initiativeStatus, author, authorRating, brandManagerRating, isTakenToWork, expiredDate, isDeleted);
     }
 }

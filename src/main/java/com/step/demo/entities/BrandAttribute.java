@@ -20,7 +20,7 @@ import java.util.Objects;
 @Filter(name = "deletedBrandAttributeFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allBrandAttributeFilter", defaultCondition = "1=1")
 @Filter(name = "allBrandAttributeFilter", condition = "1=1")
-public class BrandAttribute {
+public class BrandAttribute implements BaseEntity{
 
     @Id
     @GeneratedValue
@@ -35,14 +35,13 @@ public class BrandAttribute {
     private String hint;
     @Column(name = "activity", nullable = false)
     private boolean activity;
-    @Column(name = "reportable", nullable = false)
-    private boolean reportable;
     @Column(name = "has_question", nullable = false)
     private boolean hasQuestion;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = InitiativeType.class, fetch = FetchType.EAGER)
     @JoinColumn(
             name = "initiative_type_id",
+            nullable = false,
             foreignKey = @ForeignKey(name = "initiative_type_id_fk")
     )
     private InitiativeType initiativeType;
@@ -50,7 +49,7 @@ public class BrandAttribute {
     @OneToMany(targetEntity = BrandAttributeQuestion.class, fetch = FetchType.EAGER)
     private List<BrandAttributeQuestion> brandAttributeQuestions;
 
-    @OneToMany
+    @OneToMany(targetEntity = BrandAttributeEstimate.class, fetch = FetchType.LAZY)
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @CreatedDate
@@ -61,21 +60,99 @@ public class BrandAttribute {
     @Column(name = "deleted")
     private boolean deleted = Boolean.FALSE;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandAttribute that = (BrandAttribute) o;
-        return id == that.id && sortingList == that.sortingList && activity == that.activity && reportable == that.reportable
-                && hasQuestion == that.hasQuestion && deleted == that.deleted && Objects.equals(name, that.name)
-                && Objects.equals(hint, that.hint) && Objects.equals(initiativeType, that.initiativeType)
-                && Objects.equals(brandAttributeQuestions, that.brandAttributeQuestions)
-                && Objects.equals(brandAttributeEstimates, that.brandAttributeEstimates)
-                && Objects.equals(createDate, that.createDate) && Objects.equals(updateDate, that.updateDate);
+    public int getSortingList() {
+        return sortingList;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, sortingList, name, hint, activity, reportable, hasQuestion, initiativeType, brandAttributeQuestions, brandAttributeEstimates, createDate, updateDate, deleted);
+    public void setSortingList(int sortingList) {
+        this.sortingList = sortingList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
+
+    public boolean isActivity() {
+        return activity;
+    }
+
+    public void setActivity(boolean activity) {
+        this.activity = activity;
+    }
+
+    public boolean isHasQuestion() {
+        return hasQuestion;
+    }
+
+    public void setHasQuestion(boolean hasQuestion) {
+        this.hasQuestion = hasQuestion;
+    }
+
+    public InitiativeType getInitiativeType() {
+        return initiativeType;
+    }
+
+    public void setInitiativeType(InitiativeType initiativeType) {
+        this.initiativeType = initiativeType;
+    }
+
+    public List<BrandAttributeQuestion> getBrandAttributeQuestions() {
+        return brandAttributeQuestions;
+    }
+
+    public void setBrandAttributeQuestions(List<BrandAttributeQuestion> brandAttributeQuestions) {
+        this.brandAttributeQuestions = brandAttributeQuestions;
+    }
+
+    public List<BrandAttributeEstimate> getBrandAttributeEstimates() {
+        return brandAttributeEstimates;
+    }
+
+    public void setBrandAttributeEstimates(List<BrandAttributeEstimate> brandAttributeEstimates) {
+        this.brandAttributeEstimates = brandAttributeEstimates;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

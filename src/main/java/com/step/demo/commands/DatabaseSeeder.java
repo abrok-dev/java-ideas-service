@@ -1,8 +1,10 @@
 package com.step.demo.commands;
 
+import com.step.demo.entities.InitiativeType;
 import com.step.demo.entities.PermissionEnum;
 import com.step.demo.entities.Role;
 import com.step.demo.entities.User;
+import com.step.demo.repositories.InitiativeTypeRepository;
 import com.step.demo.repositories.RoleRepository;
 import com.step.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ShellComponent
 public class DatabaseSeeder {
     @Autowired
@@ -24,6 +29,9 @@ public class DatabaseSeeder {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private InitiativeTypeRepository initiativeTypeRepository;
 
     @ShellMethod(value = "db-seed")
     @Transactional
@@ -87,6 +95,20 @@ public class DatabaseSeeder {
         userRepository.save(manager);
         userRepository.save(author);
 
+        return "success";
+    }
+
+    @ShellMethod(value = "it-seed", key = "it-seed")
+    @Transactional
+    public String initiativeTypeSeed(@ShellOption(defaultValue = "all") String arg) {
+        ArrayList<String> names = new ArrayList<>(List.of("Продукты и сервисы", "Коммуникации", "Среда бренда"));
+
+        for (String name: names) {
+            InitiativeType entity = new InitiativeType();
+            entity.setName(name);
+            entity.setSortingList(100);
+            initiativeTypeRepository.save(entity);
+        }
         return "success";
     }
 }

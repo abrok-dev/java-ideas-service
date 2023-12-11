@@ -1,12 +1,13 @@
 package com.step.demo.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "brand_attribute_answers")
-public class BrandAttributeAnswer {
+public class BrandAttributeAnswer implements BaseEntity {
 
     @Id
     @GeneratedValue
@@ -26,16 +27,64 @@ public class BrandAttributeAnswer {
     )
     private BrandAttributeQuestion question;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandAttributeAnswer that = (BrandAttributeAnswer) o;
-        return Objects.equals(id, that.id) && Objects.equals(initiative, that.initiative) && Objects.equals(question, that.question);
+    public Initiative getInitiative() {
+        return initiative;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, initiative, question);
+    @Column(name = "answer")
+    private Boolean answer;
+
+    @Column(name = "comment")
+    private String comment;
+
+    public Boolean getAnswer() {
+        return answer;
     }
+
+    public void setAnswer(Boolean answer) {
+        this.answer = answer;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setInitiative(Initiative initiative) {
+        this.initiative = initiative;
+    }
+
+    public BrandAttributeQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(BrandAttributeQuestion question) {
+        this.question = question;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        BrandAttributeAnswer that = (BrandAttributeAnswer) o;
+//        if (initiative == null || that.initiative == null || question == null || that.question == null) {
+//            return false;
+//        }
+//        return  Objects.equals(initiative.getId(), that.initiative.getId()) && Objects.equals(question, that.question);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(answer, comment);
+//    }
 }

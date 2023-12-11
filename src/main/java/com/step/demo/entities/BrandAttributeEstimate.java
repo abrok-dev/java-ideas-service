@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "brand_attribute_estimates")
-public class BrandAttributeEstimate {
+public class BrandAttributeEstimate implements BaseEntity {
 
     @Id
     @GeneratedValue
@@ -43,21 +43,73 @@ public class BrandAttributeEstimate {
     @CreatedDate
     private Date createDate;
 
+    @Column(name = "estimate")
+    private int estimate;
+
     @LastModifiedDate
     private Date updateDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandAttributeEstimate that = (BrandAttributeEstimate) o;
-        return Objects.equals(id, that.id) && Objects.equals(initiative, that.initiative) && Objects.equals(user, that.user)
-                && Objects.equals(brandAttribute, that.brandAttribute) && Objects.equals(role, that.role)
-                && Objects.equals(createDate, that.createDate) && Objects.equals(updateDate, that.updateDate);
+    public Initiative getInitiative() {
+        return initiative;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, initiative, user, brandAttribute, role, createDate, updateDate);
+    public int getEstimate() {
+        return estimate;
+    }
+
+    public void setEstimate(int estimate) {
+        this.estimate = estimate;
+    }
+
+    public void setInitiative(Initiative initiative) {
+        this.initiative = initiative;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public BrandAttribute getBrandAttribute() {
+        return brandAttribute;
+    }
+
+    public void setBrandAttribute(BrandAttribute brandAttribute) {
+        this.brandAttribute = brandAttribute;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

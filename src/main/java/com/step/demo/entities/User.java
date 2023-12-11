@@ -9,7 +9,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, BaseEntity {
 
     @Id
     @GeneratedValue
@@ -175,5 +175,24 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User:" + username;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return  Objects.equals(getUsername(), user.getUsername())  && Objects.equals(getEmail(), user.getEmail())
+                && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getName(), user.getName())
+                && Objects.equals(getSecondName(), user.getSecondName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getEmail(), getSurname(), getName(), getSecondName());
     }
 }
