@@ -10,7 +10,13 @@ public enum PermissionEnum {
     INITIATIVE_CONFIRMED("initiative:confirmed"),
     INITIATIVE_CANCELED("initiative:canceled"),
     USER_CREATE("user:create"),
-    USER_DELETE("user:delete");
+    USER_DELETE("user:delete"),
+    BRAND_ATTRIBUTE_INDEX("brand_attribute:index"),
+    BRAND_ATTRIBUTE_SAVE("brand_attribute:save");
+
+    public String getName() {
+        return name;
+    }
 
     private final String name;
     PermissionEnum(String permission) {

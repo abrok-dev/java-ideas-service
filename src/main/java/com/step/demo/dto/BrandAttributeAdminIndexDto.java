@@ -10,9 +10,9 @@ public class BrandAttributeAdminIndexDto {
     public int sortingList;
     public String initiativeTypeName;
     public String hint;
-    public int questionCount;
+    public Long questionCount;
 
-    public BrandAttributeAdminIndexDto(Long id, String name, int sortingList, String initiativeTypeName, String hint, int questionCount) {
+    public BrandAttributeAdminIndexDto(Long id, String name, int sortingList, String initiativeTypeName, String hint, Long questionCount) {
         this.id = id;
         this.name = name;
         this.sortingList = sortingList;

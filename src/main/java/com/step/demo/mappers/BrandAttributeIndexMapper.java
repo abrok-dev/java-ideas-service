@@ -16,7 +16,7 @@ public class BrandAttributeIndexMapper {
         dto.initiativeTypeName = brandAttribute.getInitiativeType().getName();
         dto.name = brandAttribute.getName();
         dto.sortingList = brandAttribute.getSortingList();
-        dto.questionCount = brandAttribute.getBrandAttributeQuestions().size();
+        dto.questionCount = (long) brandAttribute.getBrandAttributeQuestions().size();
 
         return dto;
     }

@@ -1,7 +1,6 @@
 package com.step.demo.specifications;
 
 import com.step.demo.entities.BrandAttribute;
-import com.step.demo.entities.BrandAttribute_;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;

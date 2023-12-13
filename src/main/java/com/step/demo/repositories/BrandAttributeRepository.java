@@ -2,12 +2,7 @@ package com.step.demo.repositories;
 
 import com.step.demo.dto.BrandAttributeAdminIndexDto;
 import com.step.demo.entities.BrandAttribute;
-import com.step.demo.entities.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

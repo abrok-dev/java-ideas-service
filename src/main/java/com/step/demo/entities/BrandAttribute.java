@@ -20,7 +20,7 @@ import java.util.Objects;
 @Filter(name = "deletedBrandAttributeFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allBrandAttributeFilter", defaultCondition = "1=1")
 @Filter(name = "allBrandAttributeFilter", condition = "1=1")
-public class BrandAttribute implements BaseEntity{
+public class BrandAttribute implements BaseEntity {
 
     @Id
     @GeneratedValue

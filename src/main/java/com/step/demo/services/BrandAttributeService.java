@@ -5,6 +5,7 @@ import com.step.demo.entities.BrandAttribute;
 import com.step.demo.entities.BrandAttributeQuestion;
 import com.step.demo.repositories.BrandAttributeQuestionRepository;
 import com.step.demo.repositories.BrandAttributeRepository;
+import com.step.demo.repositories.InitiativeTypeRepository;
 import com.step.demo.specifications.BrandAttributeSpecs;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ public class BrandAttributeService {
 
     private BrandAttributeRepository repository;
     private BrandAttributeQuestionRepository questionRepository;
+
+    private InitiativeTypeRepository initiativeTypeRepository;
 
     public BrandAttributeService(BrandAttributeRepository repository) {
         this.repository = repository;
@@ -39,14 +42,10 @@ public class BrandAttributeService {
     }
 
     @Transactional
-    public Long save(BrandAttributeSaveDto brandAttribute) {
-        List<BrandAttributeQuestion> questions = brandAttribute.questions.stream().map(questionDto -> {
-                    BrandAttributeQuestion question = new BrandAttributeQuestion();
-                    question.setName(questionDto.name);
-                    question.setSortingList(questionDto.sortingList);
-                    return question;
-                }).toList();
-       questionRepository.saveAll(questions);
+    public Long save(BrandAttribute brandAttribute) {
+
+        brandAttribute.setInitiativeType(initiativeTypeRepository.getReferenceById(brandAttribute.getInitiativeType().getId()));
+        brandAttribute = repository.save(brandAttribute);
         return Long.valueOf(1);
     }
 }
