@@ -2,6 +2,7 @@ package com.step.demo.entities;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Objects;
 

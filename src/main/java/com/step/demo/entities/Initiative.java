@@ -7,6 +7,7 @@ import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Filter(name = "deletedInitiativeFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allInitiativeFilter", defaultCondition = "1=1")
 @Filter(name = "allInitiativeFilter", condition = "1=1")
+@EntityListeners(AuditingEntityListener.class)
 public class Initiative implements BaseEntity {
     @Id
     @GeneratedValue

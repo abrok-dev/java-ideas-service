@@ -2,6 +2,7 @@ package com.step.demo.entities;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.*;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "roles")
+@EntityListeners(AuditingEntityListener.class)
 public class Role implements BaseEntity {
 
     @Column(name = "permissions", length = 3000)

@@ -1,12 +1,14 @@
 package com.step.demo.entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.Objects;
 @Filter(name = "deletedBrandAttributeFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allBrandAttributeFilter", defaultCondition = "1=1")
 @Filter(name = "allBrandAttributeFilter", condition = "1=1")
+@EntityListeners(AuditingEntityListener.class)
 public class BrandAttribute implements BaseEntity {
 
     @Id
@@ -46,7 +49,7 @@ public class BrandAttribute implements BaseEntity {
     )
     private InitiativeType initiativeType;
 
-    @OneToMany(targetEntity = BrandAttributeQuestion.class, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = BrandAttributeQuestion.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BrandAttributeQuestion> brandAttributeQuestions;
 
     @OneToMany(targetEntity = BrandAttributeEstimate.class, fetch = FetchType.LAZY)

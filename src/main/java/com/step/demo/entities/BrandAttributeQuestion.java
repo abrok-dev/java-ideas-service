@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Filter(name = "deletedBrandAttributeQuestionFilter", condition = "deleted = :isDeleted")
 @FilterDef(name = "allBrandAttributeQuestionFilter", defaultCondition = "1=1")
 @Filter(name = "allBrandAttributeQuestionFilter", condition = "1=1")
+@EntityListeners(AuditingEntityListener.class)
 public class BrandAttributeQuestion implements BaseEntity {
     @Id
     @GeneratedValue

@@ -10,16 +10,21 @@ import com.step.demo.services.BrandAttributeService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("api/v1/brand_attributes")
 public class BrandAttributeController {
 
+    @Autowired
     private BrandAttributeService service;
 
     @GetMapping("/")
@@ -38,12 +43,12 @@ public class BrandAttributeController {
     }
 
     @PostMapping("/")
-    public String save(@Valid BrandAttributeSaveDto brandAttribute) {
-        //@PreAuthorize("hasAnyAuthority(T(com.step.demo.entities.PermissionEnum).BRAND_ATTRIBUTE_SAVE) || hasAnyRole('admin')")
+    @PreAuthorize("hasAnyAuthority(T(com.step.demo.entities.PermissionEnum).BRAND_ATTRIBUTE_SAVE) || hasAnyRole('admin')")
+    public String save(@Valid @RequestBody BrandAttributeSaveDto brandAttribute) {
 
         BrandAttribute brandAttributeEntity = BrandAttributeSaveMapper.toEntity(brandAttribute);
-        service.save(brandAttributeEntity);
+        BrandAttribute brandAttributeResult = service.save(brandAttributeEntity);
 
-        return "success";
+        return Objects.toString(brandAttributeResult.getId());
     }
 }
