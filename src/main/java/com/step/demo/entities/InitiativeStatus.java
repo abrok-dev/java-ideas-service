@@ -24,6 +24,7 @@ public class InitiativeStatus implements BaseEntity {
     }
 
     @OneToMany(targetEntity = Initiative.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_status_id", foreignKey = @ForeignKey(name = "initiative_status_id_fk"))
     private List<Initiative> initiativeList;
 
     @Override

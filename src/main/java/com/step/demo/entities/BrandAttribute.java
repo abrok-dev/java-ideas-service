@@ -50,9 +50,11 @@ public class BrandAttribute implements BaseEntity {
     private InitiativeType initiativeType;
 
     @OneToMany(targetEntity = BrandAttributeQuestion.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "brand_attribute_id")
     private List<BrandAttributeQuestion> brandAttributeQuestions;
 
     @OneToMany(targetEntity = BrandAttributeEstimate.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_attribute_id")
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @CreatedDate

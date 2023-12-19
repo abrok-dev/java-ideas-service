@@ -53,6 +53,7 @@ public class Initiative implements BaseEntity {
     private User author;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -82,6 +83,7 @@ public class Initiative implements BaseEntity {
     private boolean isDeleted = false;
 
     @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
     private List<InitiativeInitiativeTypeField> initiativeTypeFieldValue;
 
     public Long getId() {

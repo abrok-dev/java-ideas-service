@@ -1,6 +1,7 @@
 package com.step.demo.entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.*;
 
@@ -29,15 +30,19 @@ public class InitiativeType implements BaseEntity {
     private boolean deleted = Boolean.FALSE;
 
     @OneToMany(targetEntity = InitiativeTypeField.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
     private List<InitiativeTypeField> initiativeTypeFieldList;
 
     @OneToMany(targetEntity = TargetAudience.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
     private List<TargetAudience> targetAudienceList;
 
     @OneToMany(targetEntity = BrandAttribute.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
     private List<BrandAttribute> brandAttributeList;
 
     @OneToMany(targetEntity = Initiative.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
     private List<Initiative> initiativeList;
 
     public long getId() {

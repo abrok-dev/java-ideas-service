@@ -29,7 +29,12 @@ public class TargetAudience implements BaseEntity {
     @CreatedDate
     private Date createDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
+    private InitiativeType initiativeType;
+
     @OneToMany(targetEntity = TargetAudienceInitiative.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "target_audience_id", foreignKey = @ForeignKey(name = "target_audience_id_fk"))
     private List<TargetAudienceInitiative> targetAudienceInitiative;
 
     @LastModifiedDate
@@ -48,6 +53,14 @@ public class TargetAudience implements BaseEntity {
 
     public void setSortingList(Integer sortingList) {
         this.sortingList = sortingList;
+    }
+
+    public InitiativeType getInitiativeType() {
+        return initiativeType;
+    }
+
+    public void setInitiativeType(InitiativeType initiativeType) {
+        this.initiativeType = initiativeType;
     }
 
     public String getName() {
@@ -102,17 +115,17 @@ public class TargetAudience implements BaseEntity {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TargetAudience that = (TargetAudience) o;
-        return isDeleted() == that.isDeleted() && Objects.equals(getSortingList(), that.getSortingList())
-                && Objects.equals(getName(), that.getName()) && Objects.equals(getHint(), that.getHint());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSortingList(), getName(), getHint(), isDeleted());
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        TargetAudience that = (TargetAudience) o;
+//        return isDeleted() == that.isDeleted() && Objects.equals(getSortingList(), that.getSortingList())
+//                && Objects.equals(getName(), that.getName()) && Objects.equals(getHint(), that.getHint());
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getSortingList(), getName(), getHint(), isDeleted());
+//    }
 }
