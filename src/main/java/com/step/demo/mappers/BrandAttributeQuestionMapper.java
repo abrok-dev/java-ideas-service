@@ -11,6 +11,7 @@ public class BrandAttributeQuestionMapper {
         BrandAttributeQuestion question = new BrandAttributeQuestion();
         question.setName(dto.name);
         question.setSortingList(dto.sortingList);
+        question.setId(dto.id);
 
         return question;
     }

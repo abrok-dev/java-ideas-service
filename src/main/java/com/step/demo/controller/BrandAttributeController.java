@@ -51,4 +51,18 @@ public class BrandAttributeController {
 
         return Objects.toString(brandAttributeResult.getId());
     }
+
+    @PutMapping("/{id}")
+    public String update(@Valid @RequestBody BrandAttributeSaveDto brandAttributeSaveDto, @PathVariable Long id) {
+        BrandAttribute brandAttribute = BrandAttributeSaveMapper.toEntity(brandAttributeSaveDto);
+        brandAttribute.setId(id);
+        brandAttribute = service.update(brandAttribute);
+        return Objects.toString(brandAttribute.getId());
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete (@PathVariable Long id) {
+        service.delete(id);
+        return "success";
+    }
 }

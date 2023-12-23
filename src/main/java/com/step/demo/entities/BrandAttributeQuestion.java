@@ -35,7 +35,8 @@ public class BrandAttributeQuestion implements BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "brand_attribute_id",
-            foreignKey = @ForeignKey(name = "brand_attribute_fk")
+            foreignKey = @ForeignKey(name = "brand_attribute_fk"),
+            nullable = false
     )
     private BrandAttribute brandAttribute;
 
@@ -44,6 +45,7 @@ public class BrandAttributeQuestion implements BaseEntity {
     private List<BrandAttributeAnswer> brandAttributeAnswers;
 
     @CreatedDate
+    @Column(updatable = false)
     private Date createDate;
 
     @LastModifiedDate

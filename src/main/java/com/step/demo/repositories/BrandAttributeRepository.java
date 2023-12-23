@@ -19,6 +19,8 @@ public interface BrandAttributeRepository extends
         JpaSpecificationExecutor<BrandAttribute>
 
 {
+    @Override
+    <S extends BrandAttribute> S save(S entity);
 
     Optional<BrandAttribute> findById(@NotNull Long id);
 

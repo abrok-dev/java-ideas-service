@@ -49,8 +49,13 @@ public class BrandAttribute implements BaseEntity {
     )
     private InitiativeType initiativeType;
 
-    @OneToMany(targetEntity = BrandAttributeQuestion.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "brand_attribute_id")
+    @OneToMany(
+            targetEntity = BrandAttributeQuestion.class,
+            mappedBy = "brandAttribute",
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
     private List<BrandAttributeQuestion> brandAttributeQuestions;
 
     @OneToMany(targetEntity = BrandAttributeEstimate.class, fetch = FetchType.LAZY)
@@ -58,6 +63,7 @@ public class BrandAttribute implements BaseEntity {
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @CreatedDate
+    @Column(updatable = false)
     private Date createDate;
     @LastModifiedDate
     private Date updateDate;

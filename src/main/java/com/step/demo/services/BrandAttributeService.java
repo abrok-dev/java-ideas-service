@@ -1,6 +1,7 @@
 package com.step.demo.services;
 
 import com.step.demo.entities.BrandAttribute;
+import com.step.demo.entities.BrandAttributeQuestion;
 import com.step.demo.repositories.BrandAttributeQuestionRepository;
 import com.step.demo.repositories.BrandAttributeRepository;
 import com.step.demo.repositories.InitiativeTypeRepository;
@@ -12,6 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BrandAttributeService {
@@ -44,5 +48,28 @@ public class BrandAttributeService {
         brandAttribute.setInitiativeType(initiativeTypeRepository.getReferenceById(brandAttribute.getInitiativeType().getId()));
         brandAttribute = repository.save(brandAttribute);
         return brandAttribute;
+    }
+
+    @Transactional
+    public BrandAttribute update(BrandAttribute brandAttribute) {
+        brandAttribute.setInitiativeType(initiativeTypeRepository.getReferenceById(brandAttribute.getInitiativeType().getId()));
+//        List<Long> questionsIds = new ArrayList<>();
+        for (BrandAttributeQuestion question: brandAttribute.getBrandAttributeQuestions()) {
+            question.setBrandAttribute(repository.getReferenceById(brandAttribute.getId()));
+//            questionsIds.add(question.getId());
+        }
+
+//        List<Long> existedQuestionIds = questionRepository.getBrandAttributeQuestionIdsByBrandAttributeId(brandAttribute.getId());
+//
+//        existedQuestionIds.removeAll(questionsIds);
+//
+//        questionRepository.deleteAllById(existedQuestionIds);
+
+        brandAttribute = repository.save(brandAttribute);
+        return brandAttribute;
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
