@@ -3,20 +3,17 @@ package com.step.demo.services;
 import com.step.demo.dto.BrandAttributeAdminIndexDto;
 import com.step.demo.entities.BrandAttribute;
 import com.step.demo.entities.BrandAttributeQuestion;
-import com.step.demo.repositories.BrandAttributeQuestionRepository;
 import com.step.demo.repositories.BrandAttributeRepository;
 import com.step.demo.repositories.InitiativeTypeRepository;
-import com.step.demo.specifications.BrandAttributeSpecs;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BrandAttributeService {
@@ -42,6 +39,15 @@ public class BrandAttributeService {
             return repository.getBrandAttributesForIndex(PageRequest.of(page, limit, sort));
         }
         return repository.findByInitiativeTypeId(initiativeTypeId, PageRequest.of(page, limit, sort));
+    }
+
+    public BrandAttribute show(Long brandAttributeId) {
+        Optional<BrandAttribute> brandAttribute = repository.findById(brandAttributeId);
+        if (brandAttribute.isPresent()) {
+            return brandAttribute.get();
+        }
+
+        return null;
     }
 
     @Transactional

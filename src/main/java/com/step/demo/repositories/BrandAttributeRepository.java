@@ -35,16 +35,5 @@ public interface BrandAttributeRepository extends
 
     Optional<BrandAttribute> findById(@NotNull Long id);
 
-
-//    @Query("SELECT b.id, b.name, b.sortingList, i.name, b.hint from BrandAttribute b" +
-//            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
-//            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint")
-//    List<Object> getBrandAttributesForIndex();
-//    @Query("SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b" +
-//            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
-//            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint")
-//    Page<BrandAttributeAdminIndexDto> getBrandAttributesForIndex(Pageable pageable);
-//
-
     Page<BrandAttribute> findBrandAttributesByInitiativeType_Id(Long initiativeTypeId, Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package com.step.demo.mappers;
 
 import com.step.demo.dto.BrandAttributeQuestionSaveDto;
+import com.step.demo.dto.BrandAttributeQuestionShowDto;
 import com.step.demo.entities.BrandAttributeQuestion;
 
 public class BrandAttributeQuestionMapper {
@@ -14,5 +15,14 @@ public class BrandAttributeQuestionMapper {
         question.setId(dto.id);
 
         return question;
+    }
+
+    public static BrandAttributeQuestionShowDto toDtoShow(BrandAttributeQuestion question) {
+        BrandAttributeQuestionShowDto dto = new BrandAttributeQuestionShowDto();
+        dto.name = question.getName();
+        dto.id = question.getId();
+        dto.sortingList = question.getSortingList();
+
+        return dto;
     }
 }
