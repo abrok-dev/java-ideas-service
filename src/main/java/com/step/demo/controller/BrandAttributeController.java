@@ -3,21 +3,24 @@ package com.step.demo.controller;
 import com.step.demo.dto.BrandAttributeAdminIndexDto;
 import com.step.demo.dto.BrandAttributeSaveDto;
 import com.step.demo.entities.BrandAttribute;
-import com.step.demo.entities.PermissionEnum;
+import com.step.demo.entities.InitiativeType;
 import com.step.demo.mappers.BrandAttributeIndexMapper;
 import com.step.demo.mappers.BrandAttributeSaveMapper;
 import com.step.demo.services.BrandAttributeService;
+import com.step.demo.validation.EntityExists;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 @RestController
@@ -28,18 +31,19 @@ public class BrandAttributeController {
     private BrandAttributeService service;
 
     @GetMapping("/")
-    //@PreAuthorize("hasAnyAuthority(T(com.step.demo.entities.PermissionEnum).BRAND_ATTRIBUTE_INDEX)")
+    @PreAuthorize("hasAnyAuthority(T(com.step.demo.entities.PermissionEnum).BRAND_ATTRIBUTE_INDEX)")
+    @Operation(summary = "Список атрибутов бренда", description = "Список атрибутов бренда")
     public Page<BrandAttributeAdminIndexDto> adminIndex(
-            @RequestParam("initiativeTypeId") @Min(value = 1) Long initiativeTypeId,
-            @RequestParam("sort") String sort,
-            @RequestParam("order") String order,
-            @RequestParam("page") @Min(1) int page,
-            @RequestParam("limit") @Min(10) int limit
+            @RequestParam(value = "initiativeTypeId", required = false)
+            @EntityExists(entityClass = InitiativeType.class) @Min(value = 1) Long initiativeTypeId,
+            @RequestParam(value = "sort", required = false)
+            @Parameter(description = "поле сортировки") String sort,
+            @RequestParam(value = "order", required = false) String order,
+            @RequestParam("page") @Min(0) int page,
+            @RequestParam("limit") @Min(10) @Max(200) int limit
 
     ) {
-        Page<BrandAttribute> brandAttributes = service.index(sort, Sort.Direction.fromString(order),initiativeTypeId, page, limit);
-
-        return brandAttributes.map(BrandAttributeIndexMapper::toDto);
+        return service.index(sort, Sort.Direction.fromString(order),initiativeTypeId, page, limit);
     }
 
     @PostMapping("/")

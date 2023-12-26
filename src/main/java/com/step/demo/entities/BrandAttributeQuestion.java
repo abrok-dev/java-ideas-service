@@ -40,8 +40,8 @@ public class BrandAttributeQuestion implements BaseEntity {
     )
     private BrandAttribute brandAttribute;
 
-    @OneToMany(targetEntity = BrandAttributeAnswer.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_attribute_question_id", foreignKey = @ForeignKey(name = "brand_attribute_question_id_fk"))
+    @OneToMany(targetEntity = BrandAttributeAnswer.class, mappedBy = "question", fetch = FetchType.LAZY)
+//    @JoinColumn(name = "brand_attribute_question_id", foreignKey = @ForeignKey(name = "brand_attribute_question_id_fk"))
     private List<BrandAttributeAnswer> brandAttributeAnswers;
 
     @CreatedDate

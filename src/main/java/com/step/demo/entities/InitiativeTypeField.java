@@ -48,8 +48,8 @@ public class InitiativeTypeField implements BaseEntity {
     )
     private InitiativeType initiativeType;
 
-    @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiative_type_field_id", foreignKey = @ForeignKey(name = "initiative_type_field_id_fk"))
+    @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, mappedBy = "initiativeTypeField", fetch = FetchType.LAZY)
+//    @JoinColumn(name = "initiative_type_field_id", foreignKey = @ForeignKey(name = "initiative_type_field_id_fk"))
     private List<InitiativeInitiativeTypeField> initiativeTypeFieldList;
     @CreatedDate
     private Date createdDate;

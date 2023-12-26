@@ -22,7 +22,7 @@ public class Role implements BaseEntity {
     private Integer id;
     @Column(name = "name", unique = true)
     private String name;
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreatedDate
     private Date createdAt;
 

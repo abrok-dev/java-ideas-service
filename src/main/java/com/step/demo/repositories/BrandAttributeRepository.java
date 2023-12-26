@@ -19,21 +19,32 @@ public interface BrandAttributeRepository extends
         JpaSpecificationExecutor<BrandAttribute>
 
 {
-    @Override
-    <S extends BrandAttribute> S save(S entity);
+    @Query(value = "SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b" +
+            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
+            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint",
+        countQuery = "SELECT count(1) from BrandAttribute b where b.deleted = false"
+    )
+    Page<BrandAttributeAdminIndexDto> getBrandAttributesForIndex(Pageable pageable);
+
+    @Query(value = "SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b" +
+            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
+            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id where i.id = ?1 group by b.id, b.name, b.sortingList, i.name, b.hint",
+            countQuery = "SELECT count(1) from BrandAttribute b where b.deleted = false and b.initiativeType.id = ?1"
+    )
+    Page<BrandAttributeAdminIndexDto> findByInitiativeTypeId(@NotNull Long initiativeId, Pageable pageable);
 
     Optional<BrandAttribute> findById(@NotNull Long id);
 
-    @Query("SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b inner join " +
-            "InitiativeType i ON i.id = b.initiativeType.id" +
-            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint")
-    List<BrandAttributeAdminIndexDto> getBrandAttributesForIndex();
 
-    @Query("SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b inner join " +
-            "InitiativeType i ON i.id = b.initiativeType.id" +
-            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id where i.id = ?1 group by b.id, b.name, b.sortingList, i.name, b.hint")
-
-    List<BrandAttributeAdminIndexDto> findByInitiativeTypeId(@NotNull Long initiativeId);
+//    @Query("SELECT b.id, b.name, b.sortingList, i.name, b.hint from BrandAttribute b" +
+//            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
+//            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint")
+//    List<Object> getBrandAttributesForIndex();
+//    @Query("SELECT new com.step.demo.dto.BrandAttributeAdminIndexDto(b.id, b.name, b.sortingList, i.name, b.hint, COUNT(q)) from BrandAttribute b" +
+//            " inner join InitiativeType i ON i.id = b.initiativeType.id" +
+//            " left join BrandAttributeQuestion q ON q.brandAttribute.id = b.id group by b.id, b.name, b.sortingList, i.name, b.hint")
+//    Page<BrandAttributeAdminIndexDto> getBrandAttributesForIndex(Pageable pageable);
+//
 
     Page<BrandAttribute> findBrandAttributesByInitiativeType_Id(Long initiativeTypeId, Pageable pageable);
 }

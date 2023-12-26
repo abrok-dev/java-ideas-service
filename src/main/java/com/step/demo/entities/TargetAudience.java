@@ -27,14 +27,15 @@ public class TargetAudience implements BaseEntity {
     private String hint;
 
     @CreatedDate
+    @Column(updatable = false)
     private Date createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initiative_type_id", foreignKey = @ForeignKey(name = "initiative_type_id_fk"))
     private InitiativeType initiativeType;
 
-    @OneToMany(targetEntity = TargetAudienceInitiative.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "target_audience_id", foreignKey = @ForeignKey(name = "target_audience_id_fk"))
+    @OneToMany(targetEntity = TargetAudienceInitiative.class, mappedBy = "targetAudience", fetch = FetchType.LAZY)
+//    @JoinColumn(name = "target_audience_id", foreignKey = @ForeignKey(name = "target_audience_id_fk"))
     private List<TargetAudienceInitiative> targetAudienceInitiative;
 
     @LastModifiedDate

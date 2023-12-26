@@ -33,7 +33,7 @@ public class SecurityConfig  { //extends WebSecurityConfiguration
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth.requestMatchers("/login").permitAll().
+        return http.authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/api/v1/api-docs").permitAll().
                                 anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults()).build();

@@ -58,8 +58,7 @@ public class BrandAttribute implements BaseEntity {
     )
     private List<BrandAttributeQuestion> brandAttributeQuestions;
 
-    @OneToMany(targetEntity = BrandAttributeEstimate.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_attribute_id")
+    @OneToMany(targetEntity = BrandAttributeEstimate.class, mappedBy = "brandAttribute", fetch = FetchType.LAZY)
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @CreatedDate

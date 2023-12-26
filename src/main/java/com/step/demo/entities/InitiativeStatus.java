@@ -23,8 +23,8 @@ public class InitiativeStatus implements BaseEntity {
         return id;
     }
 
-    @OneToMany(targetEntity = Initiative.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiative_status_id", foreignKey = @ForeignKey(name = "initiative_status_id_fk"))
+    @OneToMany(targetEntity = Initiative.class, mappedBy = "initiativeStatus", fetch = FetchType.LAZY)
+//    @JoinColumn(name = "initiative_status_id", foreignKey = @ForeignKey(name = "initiative_status_id_fk"))
     private List<Initiative> initiativeList;
 
     @Override

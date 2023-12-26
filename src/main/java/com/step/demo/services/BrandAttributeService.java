@@ -1,5 +1,6 @@
 package com.step.demo.services;
 
+import com.step.demo.dto.BrandAttributeAdminIndexDto;
 import com.step.demo.entities.BrandAttribute;
 import com.step.demo.entities.BrandAttributeQuestion;
 import com.step.demo.repositories.BrandAttributeQuestionRepository;
@@ -21,16 +22,14 @@ import java.util.List;
 public class BrandAttributeService {
 
     private BrandAttributeRepository repository;
-    private BrandAttributeQuestionRepository questionRepository;
     private InitiativeTypeRepository initiativeTypeRepository;
 
-    public BrandAttributeService(BrandAttributeRepository repository, BrandAttributeQuestionRepository questionRepository, InitiativeTypeRepository initiativeTypeRepository) {
+    public BrandAttributeService(BrandAttributeRepository repository, InitiativeTypeRepository initiativeTypeRepository) {
         this.repository = repository;
-        this.questionRepository = questionRepository;
         this.initiativeTypeRepository = initiativeTypeRepository;
     }
 
-    public Page<BrandAttribute> index(String sortField, Sort.Direction order, Long initiativeTypeId, int page, @DefaultValue(value = "100") int limit) {
+    public Page<BrandAttributeAdminIndexDto> index(String sortField, Sort.Direction order, Long initiativeTypeId, int page, @DefaultValue(value = "100") int limit) {
         if (sortField == null) {
             sortField = "id";
         }
@@ -39,7 +38,10 @@ public class BrandAttributeService {
             order = Sort.Direction.ASC;
         }
         Sort sort = Sort.by(order, sortField);
-        return repository.findAll(new BrandAttributeSpecs(initiativeTypeId), PageRequest.of(page, limit, sort));
+        if (initiativeTypeId == null) {
+            return repository.getBrandAttributesForIndex(PageRequest.of(page, limit, sort));
+        }
+        return repository.findByInitiativeTypeId(initiativeTypeId, PageRequest.of(page, limit, sort));
     }
 
     @Transactional
@@ -53,17 +55,9 @@ public class BrandAttributeService {
     @Transactional
     public BrandAttribute update(BrandAttribute brandAttribute) {
         brandAttribute.setInitiativeType(initiativeTypeRepository.getReferenceById(brandAttribute.getInitiativeType().getId()));
-//        List<Long> questionsIds = new ArrayList<>();
         for (BrandAttributeQuestion question: brandAttribute.getBrandAttributeQuestions()) {
             question.setBrandAttribute(repository.getReferenceById(brandAttribute.getId()));
-//            questionsIds.add(question.getId());
         }
-
-//        List<Long> existedQuestionIds = questionRepository.getBrandAttributeQuestionIdsByBrandAttributeId(brandAttribute.getId());
-//
-//        existedQuestionIds.removeAll(questionsIds);
-//
-//        questionRepository.deleteAllById(existedQuestionIds);
 
         brandAttribute = repository.save(brandAttribute);
         return brandAttribute;

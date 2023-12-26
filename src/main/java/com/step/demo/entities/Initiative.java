@@ -52,8 +52,8 @@ public class Initiative implements BaseEntity {
     )
     private User author;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "initiative")
+//    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
     private List<BrandAttributeEstimate> brandAttributeEstimates;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -75,6 +75,7 @@ public class Initiative implements BaseEntity {
     @Column(name = "expired_date")
     private Date expiredDate;
     @CreatedDate
+    @Column(updatable = false)
     private Date createDate;
     @LastModifiedDate
     private Date updateDate;
@@ -82,8 +83,8 @@ public class Initiative implements BaseEntity {
     @Column(name = "deleted")
     private boolean isDeleted = false;
 
-    @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
+    @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, mappedBy = "initiative", fetch = FetchType.LAZY)
+//    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
     private List<InitiativeInitiativeTypeField> initiativeTypeFieldValue;
 
     public Long getId() {

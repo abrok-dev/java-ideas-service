@@ -29,11 +29,10 @@ public class InitiativeComment implements BaseEntity {
     private User user;
 
     @CreatedDate
-    @Column(name = "create_date")
+    @Column(name = "create_date", updatable = false)
     private Date createDate;
 
     @LastModifiedDate
-    @Column(name = "updateDate")
     private Date updateDate;
 
 
