@@ -12,6 +12,13 @@ public class InitiativeStatus implements BaseEntity {
     @GeneratedValue
     private Long id;
 
+    public static final Long DRAFT = 1L;
+    public static final Long WAITING = 2L;
+    public static final Long WORKING = 3L;
+    public static final Long REWORKING = 4L;
+    public static final Long CONFIRMED = 5L;
+    public static final Long CANCELED = 6L;
+
     @Column(name = "name")
     private String name;
 

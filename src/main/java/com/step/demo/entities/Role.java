@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 @Table(name = "roles")
 @EntityListeners(AuditingEntityListener.class)
 public class Role implements BaseEntity {
+    public static final String  AUTHOR = "author";
+    public static final String  BRAND_MANAGER = "brand_manager";
 
     @Column(name = "permissions", length = 3000)
     private String permissions;
@@ -20,6 +22,8 @@ public class Role implements BaseEntity {
     @Id
     @GeneratedValue
     private Integer id;
+    @Column(unique = true)
+    private String code;
     @Column(name = "name", unique = true)
     private String name;
     @Column(name = "created_at", updatable = false)
@@ -114,5 +118,13 @@ public class Role implements BaseEntity {
     @Override
     public String toString() {
         return "Role: " + name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

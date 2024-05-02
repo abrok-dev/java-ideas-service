@@ -17,8 +17,14 @@ public class InitiativeComment implements BaseEntity {
 
     @Column(name = "user_role")
     private String userRole;
+    @Column(name = "text", length = 500)
+    private String text;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Initiative.class, fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "initiative_id",
+            foreignKey = @ForeignKey(name = "initiative_id_fk")
+    )
     private Initiative initiative;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -82,6 +88,14 @@ public class InitiativeComment implements BaseEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     //    @Override

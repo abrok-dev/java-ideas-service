@@ -70,7 +70,7 @@ public class Initiative implements BaseEntity {
     private int brandManagerRating;
 
     @Column(name = "is_taken_to_work")
-    private boolean isTakenToWork;
+    private boolean isTakenToWork = false;
 
     @Column(name = "expired_date")
     private Date expiredDate;
@@ -86,6 +86,15 @@ public class Initiative implements BaseEntity {
     @OneToMany(targetEntity = InitiativeInitiativeTypeField.class, mappedBy = "initiative", fetch = FetchType.LAZY)
 //    @JoinColumn(name = "initiative_id", foreignKey = @ForeignKey(name = "initiative_id_fk"))
     private List<InitiativeInitiativeTypeField> initiativeTypeFieldValue;
+
+    @Column(name = "current_step")
+    private Integer currentStep;
+
+    @Transient
+    private String comment;
+
+    @OneToMany(targetEntity = InitiativeComment.class, mappedBy = "initiative", fetch = FetchType.LAZY)
+    private List<InitiativeComment> initiativeComments;
 
     public Long getId() {
         return id;
@@ -230,5 +239,21 @@ public class Initiative implements BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(name, description, initiativeType, initiativeStatus, author, authorRating, brandManagerRating, isTakenToWork, expiredDate, isDeleted);
+    }
+
+    public Integer getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(Integer currentStep) {
+        this.currentStep = currentStep;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
