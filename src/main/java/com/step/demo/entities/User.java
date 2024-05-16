@@ -51,6 +51,8 @@ public class User implements UserDetails, BaseEntity {
     private String name;
     @Column(name = "second_name")
     private String secondName;
+    @OneToMany(targetEntity = Attribute.class, mappedBy = "attribute", fetch = FetchType.LAZY)
+    private List<Attribute> attributes;
 
     public Long getId() {
         return id;
